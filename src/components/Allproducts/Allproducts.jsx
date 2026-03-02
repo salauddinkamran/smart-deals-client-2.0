@@ -1,7 +1,8 @@
-import React, { use } from "react";
+import React from "react";
+import { useLoaderData } from "react-router";
 
-const Allproducts = ({ allProductsPromise }) => {
-  const products = use(allProductsPromise);
+const Allproducts = () => {
+  const products = useLoaderData();
   console.log(products);
   return <div>All Products</div>;
 };

@@ -2,8 +2,8 @@ import React, { use } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
 
-const Register = () => {
-  const { signInWithGoogle, createUser } = use(AuthContext);
+const Login = () => {
+  const { signInWithGoogle, signInUser } = use(AuthContext);
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((res) => {
@@ -15,16 +15,15 @@ const Register = () => {
         toast(error.code);
       });
   };
-
-  const handleRegisterUser = (e) => {
+  const handleLoginUser = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(email, password);
-    createUser(email, password)
+    signInUser(email, password)
       .then((res) => {
         console.log(res.user);
-        toast("SignIn Successfuly");
+        toast("LogIn Successfuly");
       })
       .catch((error) => {
         toast(error.code);
@@ -34,7 +33,7 @@ const Register = () => {
     <div className="card bg-base-100 w-full mx-auto mt-10 max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
         <h1 className="text-5xl font-bold">Login now!</h1>
-        <form onSubmit={handleRegisterUser} className="fieldset">
+        <form onSubmit={handleLoginUser} className="fieldset">
           <label className="label">Email</label>
           <input
             type="email"
@@ -93,4 +92,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

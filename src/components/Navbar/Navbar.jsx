@@ -1,7 +1,19 @@
-import React from "react";
+import React, { use } from "react";
 import { Link, NavLink } from "react-router";
+import { AuthContext } from "../../Contexts/AuthContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const { user, logOutUser } = use(AuthContext);
+  const handleLogout = () => {
+    logOutUser()
+      .then(() => {
+        toast("Logout successfuly!");
+      })
+      .catch((error) => {
+        toast(error.code);
+      });
+  };
   const link = (
     <>
       <li>
@@ -10,12 +22,16 @@ const Navbar = () => {
       <li>
         <NavLink to="/allProducts">All Products</NavLink>
       </li>
-      <li>
-        <NavLink>About</NavLink>
-      </li>
-      <li>
-        <NavLink>Service</NavLink>
-      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/myProducts">My Products</NavLink>
+          </li>
+          <li>
+            <NavLink to="/myBids">My bids</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -46,7 +62,7 @@ const Navbar = () => {
             {link}
           </ul>
         </div>
-        <a className="text-xl">
+        <a className="text-xl font-bold">
           smart<span>Deals</span>
         </a>
       </div>
@@ -54,9 +70,15 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{link}</ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn" to="/register">
-          Register
-        </Link>
+        {user ? (
+          <Link onClick={handleLogout} className="btn">
+            LogOut
+          </Link>
+        ) : (
+          <Link className="btn" to="/register">
+            Register
+          </Link>
+        )}
       </div>
     </div>
   );

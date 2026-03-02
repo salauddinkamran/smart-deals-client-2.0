@@ -8,6 +8,9 @@ import RootLayout from "./layout/RootLayout.jsx";
 import Allproducts from "./components/Allproducts/Allproducts.jsx";
 import AuthProvider from "./Contexts/AuthProvider.jsx";
 import Register from "./components/Register/Register.jsx";
+import { ToastContainer } from "react-toastify";
+import MyProducts from "./components/MyProducts/MyProducts.jsx";
+import MyBids from "./components/MyBids/MyBids.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,14 @@ const router = createBrowserRouter([
         path: "/register",
         Component: Register,
       },
+      {
+        path: "/myProducts",
+        element: <MyProducts></MyProducts>,
+      },
+      {
+        path: "/myBids",
+        element: <MyBids></MyBids>,
+      },
     ],
   },
 ]);
@@ -34,6 +45,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
+      <ToastContainer />
     </AuthProvider>
-  </StrictMode>,
+  </StrictMode>
 );
