@@ -1,14 +1,36 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const { signInWithGoogle, createUser } = use(AuthContext);
+  const [showPassword, setShowPassword] = useState();
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((res) => {
         console.log(res.user);
+        const newUser = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+        };
         toast("SignIn Successfuly!");
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify(newUser)
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("After post data", data);
+          })
+          .catch((error) => {
+            console.log(error);
+            toast(error.code);
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -33,7 +55,7 @@ const Register = () => {
   return (
     <div className="card bg-base-100 w-full mx-auto mt-10 max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
-        <h1 className="text-5xl font-bold">Login now!</h1>
+        <h1 className="text-5xl font-bold">Register now!</h1>
         <form onSubmit={handleRegisterUser} className="fieldset">
           <label className="label">Email</label>
           <input
@@ -43,12 +65,22 @@ const Register = () => {
             placeholder="Email"
           />
           <label className="label">Password</label>
-          <input
-            type="password"
-            className="input"
-            name="password"
-            placeholder="Password"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="input"
+              name="password"
+              placeholder="Password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-5 top-2 btn btn-xs"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
           <div>
             <a className="link link-hover">Forgot password?</a>
           </div>

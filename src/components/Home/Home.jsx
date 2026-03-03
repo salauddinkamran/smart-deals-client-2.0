@@ -1,13 +1,16 @@
 import React from "react";
-import Allproducts from "../Allproducts/Allproducts";
+import LatestProducts from "../LatestProducts/LatestProducts";
 
-const allProductsPromise = fetch("http://localhost:3000/products").then((res) =>
-  res.json(),
-);
+const latestProductsPromise = fetch(
+  "http://localhost:3000/latest-products",
+).then((res) => res.json());
 const Home = () => {
   return (
     <div>
-      <Allproducts allProductsPromise={allProductsPromise}></Allproducts>
+      <h1>This is home</h1>
+      <LatestProducts
+        latestProductsPromise={latestProductsPromise}
+      ></LatestProducts>
     </div>
   );
 };

@@ -1,9 +1,11 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { signInWithGoogle, signInUser } = use(AuthContext);
+  const [showPassword, setShowPassword] = useState();
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((res) => {
@@ -42,12 +44,16 @@ const Login = () => {
             placeholder="Email"
           />
           <label className="label">Password</label>
-          <input
-            type="password"
-            className="input"
-            name="password"
-            placeholder="Password"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text":"password"}
+              className="input"
+              name="password"
+              placeholder="Password"
+            />
+            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute btn btn-xs right-5 top-2">{ showPassword ? <FaEyeSlash /> : <FaEye />}</button>
+          </div>
+
           <div>
             <a className="link link-hover">Forgot password?</a>
           </div>

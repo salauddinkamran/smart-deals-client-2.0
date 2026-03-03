@@ -71,13 +71,18 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {user ? (
-          <Link onClick={handleLogout} className="btn">
-            LogOut
+          <Link onClick={handleLogout} className="btn btn-primary">
+            Log Out
           </Link>
         ) : (
-          <Link className="btn" to="/register">
-            Register
-          </Link>
+          <div className="flex gap-3">
+            <Link className="btn btn-primary" to="/login">
+              Login
+            </Link>
+            <Link className="btn btn-primary" to="/register">
+              Register
+            </Link>
+          </div>
         )}
       </div>
     </div>
