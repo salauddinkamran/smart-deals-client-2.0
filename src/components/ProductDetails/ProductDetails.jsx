@@ -19,7 +19,7 @@ const ProductDetails = () => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
-    const bid = e.target.bid.value;
+    const bid = Number(e.target.bid.value);
     console.log(productId, name, email, bid);
     const newBid = {
       product: productId,
@@ -149,7 +149,7 @@ const ProductDetails = () => {
             <tbody>
               {/* row 1 */}
               {bids.map((bid, index) => (
-                <tr>
+                <tr key={bid._id}>
                   <td>{index + 1}</td>
                   <td>
                     <div className="flex items-center gap-3">
