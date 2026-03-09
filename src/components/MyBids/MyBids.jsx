@@ -5,15 +5,21 @@ import Swal from "sweetalert2";
 const MyBids = () => {
   const { user } = use(AuthContext);
   const [bids, setBids] = useState([]);
+  console.log(user?.accessToken);
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/bids?email=${user?.email}`)
+      fetch(`http://localhost:3000/bids?email=${user?.email}`, {
+        headers: {
+          authorization: `Bearer ${user?.accessToken}`,
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
           setBids(data);
+          console.log(data);
         });
     }
-  }, [user?.email]);
+  }, [user?.email, user?.accessToken]);
 
   const handleBidsDelete = (_id) => {
     Swal.fire({
@@ -39,7 +45,7 @@ const MyBids = () => {
                 text: "Your bid has been deleted.",
                 icon: "success",
               });
-              const remainingBids = bids.filter((bid) => bid._id != _id);
+              const remainingBids = bids.filter((bid) => bid._id !== _id);
               setBids(remainingBids);
             }
           });
@@ -48,7 +54,7 @@ const MyBids = () => {
   };
   return (
     <div>
-      <h3 className="text-4xl font-bold text-center mt-5">
+      <h3 className="title text-4xl font-bold text-center mt-5">
         My Bids: <span className="text-primary">{bids.length}</span>
       </h3>
       <table className="table">
