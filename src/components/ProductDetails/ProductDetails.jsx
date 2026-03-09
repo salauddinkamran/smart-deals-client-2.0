@@ -53,17 +53,20 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/products/bids/${productId}`)
+    fetch(`http://localhost:3000/products/bids/${productId}`, {
+      headers: {
+        authorization: `Bearer ${user.accessToken}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log("bids fot this product", data);
         setBids(data);
       })
       .catch((error) => {
-        ``;
         console.log(error);
       });
-  }, [productId]);
+  }, [productId, user]);
   return (
     <div>
       <div className="flex items-center gap-5">

@@ -5,15 +5,43 @@ import Swal from "sweetalert2";
 const MyBids = () => {
   const { user } = use(AuthContext);
   const [bids, setBids] = useState([]);
+  // console.log("Token", user.accessToken);
+
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/bids?email=${user?.email}`)
+      fetch(`http://localhost:3000/bids?email=${user.email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
-          setBids(data);
+          if (Array.isArray(data)) {
+            setBids(data);
+          } else {
+            setBids([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
         });
     }
-  }, [user?.email]);
+  }, [user]);
+
+  // useEffect(() => {
+  //   if (user?.email) {
+  //     fetch(`http://localhost:3000/bids?email=${user.email}`, {
+  //       headers: {
+  //         authorization: `Bearer ${user.accessToken}`,
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setBids(data);
+  //         console.log(data);
+  //       });
+  //   }
+  // }, [user]);
 
   const handleBidsDelete = (_id) => {
     Swal.fire({
