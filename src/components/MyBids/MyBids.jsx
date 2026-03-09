@@ -5,21 +5,60 @@ import Swal from "sweetalert2";
 const MyBids = () => {
   const { user } = use(AuthContext);
   const [bids, setBids] = useState([]);
+<<<<<<< HEAD
   console.log(user?.accessToken);
   useEffect(() => {
     if (user?.email) {
       fetch(`http://localhost:3000/bids?email=${user?.email}`, {
         headers: {
           authorization: `Bearer ${user?.accessToken}`,
+=======
+  // console.log("Token", user.accessToken);
+
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`http://localhost:3000/bids?email=${user.email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access-token")}`,
+>>>>>>> 11d033d7c41374beff98ebab4842da073deb247c
         },
       })
         .then((res) => res.json())
         .then((data) => {
+<<<<<<< HEAD
           setBids(data);
           console.log(data);
         });
     }
   }, [user?.email, user?.accessToken]);
+=======
+          if (Array.isArray(data)) {
+            setBids(data);
+          } else {
+            setBids([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [user]);
+
+  // useEffect(() => {
+  //   if (user?.email) {
+  //     fetch(`http://localhost:3000/bids?email=${user.email}`, {
+  //       headers: {
+  //         authorization: `Bearer ${user.accessToken}`,
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setBids(data);
+  //         console.log(data);
+  //       });
+  //   }
+  // }, [user]);
+>>>>>>> 11d033d7c41374beff98ebab4842da073deb247c
 
   const handleBidsDelete = (_id) => {
     Swal.fire({

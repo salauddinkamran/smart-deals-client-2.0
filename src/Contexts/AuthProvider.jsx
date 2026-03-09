@@ -36,6 +36,21 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (curentUser) => {
       setUser(curentUser);
+      if (curentUser) {
+        const loggedUser = { email: curentUser.email };
+        fetch("http://localhost:3000/getToken", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(loggedUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("After getting token", data.token);
+            localStorage.setItem("access-token", data.token);
+          }); 
+      }
       setLoading(false);
     });
     return () => {

@@ -1,10 +1,16 @@
 import React from "react";
-import { useLoaderData } from "react-router";
+import Product from "../Product/Product";
+import SingleProducts from "./SingleProducts";
 
+const allProductsPromise = fetch("http://localhost:3000/products").then((res) =>
+  res.json(),
+);
 const Allproducts = () => {
-  const products = useLoaderData();
-  console.log(products);
-  return <div>All Products</div>;
+  return (
+    <div>
+      <SingleProducts allProductsPromise={allProductsPromise}></SingleProducts>
+    </div>
+  );
 };
 
 export default Allproducts;
